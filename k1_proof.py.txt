@@ -1,0 +1,31 @@
+import urllib.request
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+print("K1 BEWEIS - PANDEMONIUM LOADING...")
+
+# Pantheon+SH0ES Dataset laden
+url = "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/main/Pantheon+_Data/4_DISTANCES_AND_COVAR/Pantheon+SH0ES.dat"
+with urllib.request.urlopen(url) as response:
+    data = response.read().decode('utf-8')
+    
+df = pd.read_csv(pd.StringIO(data), delim_whitespace=True, skiprows=15)
+print(f"Dataset: {df.shape}")
+
+# Low-z filtern
+df_lowz = df[(df.iloc[:,1] > 0.01) & (df.iloc[:,1] < 0.06)]
+print(f"Low-z SNe: {len(df_lowz)}")
+
+# H0 berechnen (Spalte 2 = distance modulus)
+cz = 299792 * df_lowz.iloc[:,1]
+dL = 10**(df_lowz.iloc[:,2]/5)
+H0 = cz / dL
+
+print(f"H0 Mittel: {H0.mean():.1f}")
+
+plt.scatter(range(len(H0)), H0)
+plt.title("Pantheon+SH0ES H0 low-z")
+plt.ylabel("H0 km/s/Mpc")
+plt.savefig("k1_h0.png")
+plt.show()
