@@ -1,0 +1,7 @@
+Parameter,Value,Status
+a_empirical,12.57,LSQ fit
+4π_theory,12.566370614359172,Exact
+η_cosmo (KSS),0.07957747154594767,Holographic
+a × η_cosmo,1.0,Cancellation
+Result,"|
+abla N| = B/(λ B_crit)",CONFIRMED
